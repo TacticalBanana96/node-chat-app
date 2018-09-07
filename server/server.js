@@ -15,14 +15,19 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) =>{ //registers an event listener
   console.log('New user connected');
 
-  socket.emit('newMessage', {
-    from: 'example',
-    text: 'sup bro',
-    createdAt: 12456789
-  });
+  // socket.emit('newMessage', { // socket.emit emits to a single user
+  //   from: 'example',
+  //   text: 'sup bro',
+  //   createdAt: 12456789
+  // });
 
   socket.on('createMessage', (message) => {
     console.log('createMessage', message);
+    io.emit('newMessage', { //io.emit emits to all users
+      from: message.from,
+      text: message.text,
+      createdAt: new Date().getTime()
+    });
   });
   // socket.emit('newEmail', {
   //   from: 'mike@example.com',
