@@ -22,11 +22,17 @@ io.on('connection', (socket) =>{ //registers an event listener
   // });
 
   socket.on('createMessage', (message) => {
-    console.log('createMessage', message);
-    io.emit('newMessage', { //io.emit emits to all users
-      from: message.from,
-      text: message.text,
-      createdAt: new Date().getTime()
+    //console.log('createMessage', message);
+    // io.emit('newMessage', { //io.emit emits to all users
+    //   from: message.from,
+    //   text: message.text,
+    //   createdAt: new Date().getTime()
+    // });
+
+    socket.broadcast.emit('newMessage', {
+        from: message.from,
+        text: message.text,
+        createdAt: new Date().getTime()
     });
   });
   // socket.emit('newEmail', {
