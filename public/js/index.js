@@ -8,10 +8,11 @@ socket.on('disconnect', function () {
   console.log('Disconnected from server');
 });
 socket.on('newMessage', function (message) {
+  let formattedTime = moment(message.createdAt).format('h:mm a');
   console.log('Message', message);
 
   let li = jQuery('<li></li>');
-  li.text(`${message.from}: ${message.text}`);
+  li.text(`${message.from} ${formattedTime}: ${message.text}`);
 
   jQuery('#messages').append(li);
 });
@@ -19,8 +20,9 @@ socket.on('newMessage', function (message) {
 socket.on('newLocationMessage', function (message){
   let li = jQuery('<li></li>');
   let a = jQuery('<a target="_blank">My current location</a>');// target="_blank" opens link in new tab instead of on current tab so that we arent kicked from the chat
-
-  li.text(`${message.from}: `);
+  let formattedTime = moment(message.createdAt).format('h:mm a');
+  
+  li.text(`${message.from} ${formattedTime}: `);
   a.attr('href', message.url);
 
   li.append(a);
